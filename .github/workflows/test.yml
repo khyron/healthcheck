@@ -21,6 +21,8 @@ jobs:
         unzip chrome-linux64.zip
         sudo mv chrome-linux64/chrome /usr/bin/google-chrome
         sudo chmod +x /usr/bin/google-chrome        
+        sudo ln -sf /usr/bin/google-chrome /opt/google/chrome/chrome  # 👉 for Selenium compatibility
+
 
     - name: Download ChromeDriver for Testing
       run: |
