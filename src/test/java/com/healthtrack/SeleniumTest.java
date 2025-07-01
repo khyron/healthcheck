@@ -19,7 +19,7 @@ public class SeleniumTest {
         options.addArguments("--headless");
 
         WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
-        driver.get("http://localhost:8080/index.html");
+        driver.get("http://host.docker.internal:8080/index.html");
 
         driver.findElement(By.id("nombre")).sendKeys("Luis");
         driver.findElement(By.id("peso")).sendKeys("75");
