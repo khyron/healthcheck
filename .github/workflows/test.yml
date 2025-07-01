@@ -59,6 +59,11 @@ jobs:
           sleep 2
         done
 
+    - name: Kill leftover Chrome and ChromeDriver processes
+      run: |
+        pkill -f chrome || true
+        pkill -f chromedriver || true
+
     - name: Run Selenium Test
       env:
         BASE_URL: http://localhost:8080
