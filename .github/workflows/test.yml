@@ -10,8 +10,11 @@ jobs:
 
     steps:
 
-    - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y xvfb
+    - name: Install dependencies for headless testing
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4 libappindicator1 libindicator7
+        
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -43,7 +46,8 @@ jobs:
     - name: Run Selenium Test
       env:
         BASE_URL: http://localhost:8080
-      run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' mvn -Dtest=com.healthtrack.SeleniumTest test
+      run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' mvn -Dorg.slf4j.simpleLogger.log.org.apache.hc.client5.http.wire=WARN -Dtest=com.healthtrack.SeleniumTest test
+
 
 
     - name: Install JMeter
