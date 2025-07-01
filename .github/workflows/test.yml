@@ -42,6 +42,9 @@ jobs:
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
         tar -xzf apache-jmeter-5.5.tgz
 
+    - name: Run Selenium Tests
+      run: mvn -Dtest=com.healthtrack.SeleniumTest test
+
     - name: Run JMeter test
       run: apache-jmeter-5.5/bin/jmeter -n -t jmeter/healthtrack_test.jmx -l jmeter/results.jtl
 
