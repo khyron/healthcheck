@@ -16,10 +16,11 @@ public class SeleniumTest {
     @Test
     public void testFormInteraction() throws Exception {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
 
-        WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
-        driver.get("http://172.17.0.1:8080/index.html");
+        WebDriver driver = new ChromeDriver(options); // ← ya no RemoteWebDriver
+
+        driver.get("http://localhost:8080/index.html");
 
         driver.findElement(By.id("nombre")).sendKeys("Luis");
         driver.findElement(By.id("peso")).sendKeys("75");

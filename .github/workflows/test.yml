@@ -9,13 +9,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      selenium:
-        image: seleniarm/standalone-chromium
-        ports:
-          - 4444:4444
 
     steps:
+
+    - name: Install Chrome
+      run: |
+        sudo apt update
+        sudo apt install -y wget unzip xvfb
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb      
+        
     - name: Checkout code
       uses: actions/checkout@v3
 
