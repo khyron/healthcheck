@@ -26,7 +26,7 @@ public class SeleniumTest {
         }
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--remote-debugging-port=9222", "--disable-gpu");
         // No usamos --user-data-dir para evitar problemas de bloqueo
 
         WebDriver driver = new ChromeDriver(options);
