@@ -31,8 +31,8 @@ jobs:
     - name: Run Unit Tests
       run: mvn test
 
-    - name: Run Spring Boot in background
-      run: mvn spring-boot:run &
+    - name: Run Spring Boot (host mode)
+      run: java -Dserver.port=8080 -Dserver.address=0.0.0.0 -jar target/healthtrack-1.0.0.jar &     
     - name: Wait for backend to be ready
       run: |
         echo "Waiting for localhost:8080..."
@@ -45,9 +45,16 @@ jobs:
       run: |
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
         tar -xzf apache-jmeter-5.5.tgz
+    - name: Detect docker host IP
+      run: |
+        echo "::set-output name=bridge_ip::$(/sbin/ip route|awk '/default/ { print $3 }')"
+      id: detect
 
-    - name: Run Selenium Tests
-      run: mvn -Dtest=com.healthtrack.SeleniumTest test
+    - name: Run Selenium Test with dynamic host
+      run: |
+        echo "Detected host IP: ${{ steps.detect.outputs.bridge_ip }}"
+        sed -i "s|localhost:8080|${{ steps.detect.outputs.bridge_ip }}:8080|g" src/test/java/com/healthtrack/SeleniumTest.java
+        mvn -Dtest=com.healthtrack.SeleniumTest test
 
     - name: Run JMeter test
       run: apache-jmeter-5.5/bin/jmeter -n -t jmeter/healthtrack_test.jmx -l jmeter/results.jtl
