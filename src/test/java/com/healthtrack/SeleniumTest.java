@@ -21,7 +21,6 @@ public class SeleniumTest {
 
         // Configuración de Chrome con ruta al binario personalizado
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("chrome-for-testing/chrome-linux64/chrome"); // 🔧 Ruta relativa correcta
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
 
         WebDriver driver = new ChromeDriver(options);

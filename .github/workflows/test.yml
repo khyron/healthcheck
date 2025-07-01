@@ -29,10 +29,6 @@ jobs:
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
 
-    - name: Export Chrome binary path for Selenium
-      run: echo "CHROME_BIN=$(pwd)/chrome-for-testing/chrome-linux64/chrome" >> $GITHUB_ENV
-
-
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -64,7 +60,6 @@ jobs:
     - name: Run Selenium Test
       env:
         BASE_URL: http://localhost:8080
-        CHROME_BINARY: ${{ github.workspace }}/chrome-for-testing/chrome-linux64/chrome
       run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' mvn -Dorg.slf4j.simpleLogger.log.org.apache.hc.client5.http.wire=WARN -Dtest=com.healthtrack.SeleniumTest test
 
 
