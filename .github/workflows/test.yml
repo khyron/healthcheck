@@ -28,7 +28,7 @@ jobs:
         sudo chmod +x /usr/local/bin/chromedriver
     - name: Set up PATH for ChromeDriver
       run: |
-        sudo mv chromedriver/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
 
     - name: Export Chrome binary path for Selenium
