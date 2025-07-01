@@ -17,20 +17,19 @@ jobs:
 
     - name: Download Chrome for Testing
       run: |
-        wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chrome-linux64.zip
+        wget https://storage.googleapis.com/chrome-for-testing-public/117.0.5938.149/linux64/chrome-linux64.zip
         unzip chrome-linux64.zip
         sudo mv chrome-linux64/chrome /usr/bin/google-chrome
         sudo chmod +x /usr/bin/google-chrome        
-        sudo ln -sf /usr/bin/google-chrome /opt/google/chrome/chrome  # 👉 for Selenium compatibility
-
+        sudo ln -sf /usr/bin/google-chrome /opt/google/chrome/chrome  # for Selenium compatibility
 
     - name: Download ChromeDriver for Testing
       run: |
-        wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chromedriver-linux64.zip
+        wget https://storage.googleapis.com/chrome-for-testing-public/117.0.5938.149/linux64/chromedriver-linux64.zip
         unzip chromedriver-linux64.zip
         sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
-
+        
     - name: Checkout code
       uses: actions/checkout@v3
 
