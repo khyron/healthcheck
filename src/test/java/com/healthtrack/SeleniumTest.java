@@ -23,6 +23,9 @@ public class SeleniumTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
 
+        String tempProfileDir = Files.createTempDirectory("chrome-profile").toString();
+        options.addArguments("--user-data-dir=" + tempProfileDir);
+        
         WebDriver driver = new ChromeDriver(options);
 
         // Ir al formulario
