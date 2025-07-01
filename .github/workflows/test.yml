@@ -33,10 +33,14 @@ jobs:
 
     - name: Run Spring Boot in background
       run: mvn spring-boot:run &
-    
-    - name: Wait for Spring Boot to initialize
-      run: sleep 15
-
+    - name: Wait for backend to be ready
+      run: |
+        echo "Waiting for localhost:8080..."
+        for i in {1..30}; do
+          nc -z localhost 8080 && echo "Backend is up!" && break
+          echo "Waiting..."
+          sleep 2
+        done
     - name: Install JMeter
       run: |
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
