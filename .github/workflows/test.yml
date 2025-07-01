@@ -15,10 +15,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y unzip xvfb libxi6 libnss3 libx11-xcb1 libxcomposite1 libxdamage1 libxtst6 libatk1.0-0 libgtk-3-0
 
-    - name: Install Chrome 114
+    - name: Download Chrome for Testing
       run: |
-        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
-        sudo apt install -y ./google-chrome-stable_114.0.5735.90-1_amd64.deb
+        wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chrome-linux64.zip
+        unzip chrome-linux64.zip -d chrome-for-testing
 
 
     - name: Checkout code
@@ -52,8 +52,8 @@ jobs:
     - name: Run Selenium Test
       env:
         BASE_URL: http://localhost:8080
+        CHROME_BINARY: ${{ github.workspace }}/chrome-for-testing/chrome-linux64/chrome
       run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' mvn -Dorg.slf4j.simpleLogger.log.org.apache.hc.client5.http.wire=WARN -Dtest=com.healthtrack.SeleniumTest test
-
 
 
     - name: Install JMeter

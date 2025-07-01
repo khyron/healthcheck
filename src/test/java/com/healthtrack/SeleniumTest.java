@@ -15,30 +15,28 @@ public class SeleniumTest {
 
     @Test
     public void testFormInteraction() throws Exception {
-        // Instala el ChromeDriver compatible con la versión de Chrome instalada        
-        WebDriverManager.chromedriver().driverVersion("137.0.7151.19").setup();
-     
-        // Leer URL desde variable de entorno
+        WebDriverManager.chromedriver().driverVersion("138.0.7204.92").setup();
+
         String baseUrl = System.getenv("BASE_URL");
         if (baseUrl == null || baseUrl.isEmpty()) {
-            baseUrl = "http://localhost:8080"; // Valor por defecto
+            baseUrl = "http://localhost:8080";
         }
 
-        // Configuración del navegador
         ChromeOptions options = new ChromeOptions();
+        String chromeBinary = System.getenv("CHROME_BINARY");
+        if (chromeBinary != null && !chromeBinary.isEmpty()) {
+            options.setBinary(chromeBinary);
+        }
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
 
         WebDriver driver = new ChromeDriver(options);
 
-        // Ir al formulario
         driver.get(baseUrl + "/index.html");
 
-        // Interacción con el formulario
         driver.findElement(By.id("nombre")).sendKeys("Luis");
         driver.findElement(By.id("peso")).sendKeys("75");
         driver.findElement(By.tagName("button")).click();
 
-        // Verificar resultado
         WebElement result = driver.findElement(By.id("resultado"));
         assertTrue(result.getText().contains("Peso Actual"), "Response contains weight update");
 
