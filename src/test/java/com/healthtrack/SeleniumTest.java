@@ -16,7 +16,8 @@ public class SeleniumTest {
     @Test
     public void testFormInteraction() throws Exception {
         // Instala el ChromeDriver compatible con la versión de Chrome instalada        
-        WebDriverManager.chromedriver().setup();        
+        WebDriverManager.chromedriver().driverVersion("137.0.7151.19").setup();
+     
         // Leer URL desde variable de entorno
         String baseUrl = System.getenv("BASE_URL");
         if (baseUrl == null || baseUrl.isEmpty()) {
