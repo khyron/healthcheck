@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,7 +28,7 @@ public class SeleniumTest {
 
         String tempProfileDir = Files.createTempDirectory("chrome-profile").toString();
         options.addArguments("--user-data-dir=" + tempProfileDir);
-        
+
         WebDriver driver = new ChromeDriver(options);
 
         // Ir al formulario
