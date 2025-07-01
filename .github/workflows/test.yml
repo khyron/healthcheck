@@ -18,13 +18,14 @@ jobs:
     - name: Download Chrome for Testing
       run: |
         wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chrome-linux64.zip
-        unzip chrome-linux64.zip -d chrome-for-testing
+        unzip chrome-linux64.zip
 
-    - name: Download matching ChromeDriver
+    - name: Download ChromeDriver for Testing
       run: |
         wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chromedriver-linux64.zip
-        unzip chromedriver-linux64.zip -d chromedriver
-
+        unzip chromedriver-linux64.zip
+        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+        sudo chmod +x /usr/local/bin/chromedriver
     - name: Set up PATH for ChromeDriver
       run: |
         sudo mv chromedriver/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
