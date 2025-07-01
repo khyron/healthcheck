@@ -10,7 +10,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
-
+import java.util.Comparator;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,33 +19,35 @@ public class SeleniumTest {
 
     @Test
     public void testFormInteraction() throws Exception {
-        // Leer URL desde variable de entorno
         String baseUrl = System.getenv("BASE_URL");
         if (baseUrl == null || baseUrl.isEmpty()) {
             baseUrl = "http://localhost:8080";
         }
 
-        // Configuración de Chrome con ruta al binario personalizado
+        Path tempProfileDir = Files.createTempDirectory("chrome-profile-");
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
-
-        String tempProfileDir = Files.createTempDirectory("chrome-profile").toString();
-        options.addArguments("--user-data-dir=" + tempProfileDir);
+        options.addArguments("--user-data-dir=" + tempProfileDir.toAbsolutePath().toString());
 
         WebDriver driver = new ChromeDriver(options);
 
-        // Ir al formulario
-        driver.get(baseUrl + "/index.html");
+        try {
+            driver.get(baseUrl + "/index.html");
+            driver.findElement(By.id("nombre")).sendKeys("Luis");
+            driver.findElement(By.id("peso")).sendKeys("75");
+            driver.findElement(By.tagName("button")).click();
 
-        // Interacción con el formulario
-        driver.findElement(By.id("nombre")).sendKeys("Luis");
-        driver.findElement(By.id("peso")).sendKeys("75");
-        driver.findElement(By.tagName("button")).click();
+            WebElement result = driver.findElement(By.id("resultado"));
+            assertTrue(result.getText().contains("Peso Actual"));
+        } finally {
+            driver.quit();
 
-        // Verificación
-        WebElement result = driver.findElement(By.id("resultado"));
-        assertTrue(result.getText().contains("Peso Actual"));
-
-        driver.quit();
+            // Limpia el directorio temporal
+            Files.walk(tempProfileDir)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+        }
     }
 }
