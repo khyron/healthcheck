@@ -10,15 +10,8 @@ jobs:
 
     steps:
 
-    - name: Install Chrome
-      run: |
-        sudo apt update
-        sudo apt install -y wget unzip xvfb curl gnupg
-        curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg
-        echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.gpg] https://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
-        sudo apt update
-        sudo apt install -y google-chrome-stable
-
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y xvfb
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -50,7 +43,8 @@ jobs:
     - name: Run Selenium Test
       env:
         BASE_URL: http://localhost:8080
-      run: mvn -Dtest=com.healthtrack.SeleniumTest test
+      run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' mvn -Dtest=com.healthtrack.SeleniumTest test
+
 
     - name: Install JMeter
       run: |

@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,6 +15,8 @@ public class SeleniumTest {
 
     @Test
     public void testFormInteraction() throws Exception {
+        // Instala el ChromeDriver compatible con la versión de Chrome instalada        
+        WebDriverManager.chromedriver().setup();        
         // Leer URL desde variable de entorno
         String baseUrl = System.getenv("BASE_URL");
         if (baseUrl == null || baseUrl.isEmpty()) {
