@@ -7,6 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SeleniumTest {
@@ -18,8 +24,12 @@ public class SeleniumTest {
             baseUrl = "http://localhost:8080";
         }
 
+        // Crear directorio temporal único para user-data-dir
+        Path tempProfileDir = Files.createTempDirectory("chrome-profile-");
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+        options.addArguments("--user-data-dir=" + tempProfileDir.toAbsolutePath().toString());
 
         WebDriver driver = new ChromeDriver(options);
 
@@ -34,6 +44,16 @@ public class SeleniumTest {
             assertTrue(result.getText().contains("Peso Actual"));
         } finally {
             driver.quit();
+
+            // Limpiar directorio temporal
+            try {
+                Files.walk(tempProfileDir)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
