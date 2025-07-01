@@ -19,6 +19,8 @@ jobs:
       run: |
         wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chrome-linux64.zip
         unzip chrome-linux64.zip
+        sudo mv chrome-for-testing/chrome-linux64/chrome /usr/bin/google-chrome
+        sudo chmod +x /usr/bin/google-chrome        
 
     - name: Download ChromeDriver for Testing
       run: |
