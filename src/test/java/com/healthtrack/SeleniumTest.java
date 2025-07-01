@@ -23,9 +23,9 @@ public class SeleniumTest {
         }
 
         ChromeOptions options = new ChromeOptions();
-        String chromeBinary = System.getenv("CHROME_BINARY");
-        if (chromeBinary != null && !chromeBinary.isEmpty()) {
-            options.setBinary(chromeBinary);
+        options.setBinary(System.getenv("CHROME_BIN"));
+        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+        WebDriver driver = new ChromeDriver(options);
         }
         options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
 
